@@ -7,6 +7,7 @@ import Home from './Home/Home';
 import Register from './Register/Register';
 import Login from './Login/Login';
 import Works from './Works/Works';
+import Version from './Version/Version';
 import { 
   loginAction, 
   logoutAction, 
@@ -24,7 +25,11 @@ class App extends React.Component {
     this.state = {
       authenticated: false,
       works: [],
-      error: null
+      error: null,
+      temp_version_data: {
+        title: "Untitled",
+        text: "This is a test"
+      }
     }
 
   }
@@ -139,6 +144,12 @@ class App extends React.Component {
                                   fetchData={this.getMyWorks}
                                   addWork={this.createWork} />} 
           /> 
+          <Route 
+            path="/version"
+            render={(props) => <Version 
+                                  {...props}
+                                  data={this.state.temp_version_data} />}
+          />
         </div>
       </Router>
     )

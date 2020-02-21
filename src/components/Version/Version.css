@@ -1,0 +1,17 @@
+textarea, select, input, button { outline: none; }
+.version-title {
+    width: 100%;
+    font-size: 2em;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    margin-bottom: 2%;
+}
+
+.version-text {
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+    height: 750px;
+    width: 100%;
+}
