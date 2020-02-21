@@ -7,7 +7,14 @@ import Home from './Home/Home';
 import Register from './Register/Register';
 import Login from './Login/Login';
 import Works from './Works/Works';
-import { loginAction, registerAction, getWorks } from '../util';
+import { 
+  loginAction, 
+  logoutAction, 
+  registerAction, 
+  getWorks,
+  makeWork,
+  checkAuth
+} from '../util';
 import './App.css';
 
 
@@ -16,37 +23,70 @@ class App extends React.Component {
     super(props)
     this.state = {
       authenticated: false,
-      works: []
+      works: [],
+      error: null
     }
+
   }
 
-  handleLogin(email, password) {
+  componentWillMount() {
+    checkAuth()
+    .then((result) => {
+      console.log("RESULT")
+      console.log(result)
+      if (result) {
+        this.setState({
+          authenticated: true
+        })
+      }
+    })
+    .catch((error) => {
+      console.log("ERROR CEHCK")
+      console.log(error)
+    })
+  }
+
+  handleLogin = (email, password) => {
     loginAction(email, password)
       .then((result) => {
         console.log("Should push /works")
         history.push('/works')
         // isn't working for some reason maybe need to bind this
-        // this.setState({
-        //   authenticated: true
-        // })
+        this.setState({
+          authenticated: true
+        })
       })
       .catch((error) => {
         console.log(error)
+        this.setState({
+          error: error
+        })
       })
   }
 
-  handleRegister(email, password) {
+  handleLogout = () => {
+    logoutAction()
+    this.setState({
+      authenticated: false
+    })
+    history.push('/login')
+  }
+
+  handleRegister = (email, password) => {
     registerAction(email, password)
       .then((result) => {
         console.log("Should push /works")
         history.push('/works')
         // isn't working for some reason maybe need to bind this
-        // this.setState({
-        //   authenticated: true
-        // })
+        this.setState({
+          authenticated: true
+        })
       })
       .catch((error) => {
         console.log(error)
+        this.setState({
+          error: error
+        })
       })
   }
 
@@ -54,7 +94,8 @@ class App extends React.Component {
     getWorks()
       .then((data) => {
         this.setState({
-          works: data
+          works: data,
+          authenticated: true
         })
       })
       .catch((error) => {
@@ -62,23 +103,41 @@ class App extends React.Component {
       })
   }
 
+  createWork = () => {
+    makeWork()
+      .then((data) => {
+        const newWorks = this.state.works 
+        newWorks.push(data)
+        this.setState({
+          works: newWorks
+        })
+      })
+      .catch((error) => {
+        console.log("ERROR MAKING WORK")
+      })
+  }
+
   render() {
     return (
       <Router history={history}>
         <div className="App">
-          <Navbar auth={this.state.authenticated} />
+          <Navbar auth={this.state.authenticated} signalLogout={this.handleLogout} />
           <Route exact path="/" component={Home} />
           <Route 
             path="/register" 
-            render={(props) => <Register {...props} sendRegister={this.handleRegister} /> }
+            render={(props) => <Register {...props} sendRegister={this.handleRegister} error={this.state.error} /> }
           />
           <Route 
             path="/login" 
-            render={(props) => <Login {...props} sendLogin={this.handleLogin} />} 
+            render={(props) => <Login {...props} sendLogin={this.handleLogin} error={this.state.error} />} 
           />
           <Route 
             path="/works" 
-            render={(props) => <Works {...props} data={this.state.works} fetchData={this.getMyWorks} />} 
+            render={(props) => <Works 
+                                  {...props} 
+                                  data={this.state.works} 
+                                  fetchData={this.getMyWorks}
+                                  addWork={this.createWork} />} 
           /> 
         </div>
       </Router>

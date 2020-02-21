@@ -13,20 +13,33 @@ class Works extends React.Component {
     render() {
         return (
             <div className="container">
-                <h2>My Works.</h2>
-                {this.props.data.map((item, index) => {
-                    return (
-                        <div className="card" key={item.id}>
-                            <div className="card-body">
-                                <h5 className="card-title">Card title</h5>
-                                <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" className="card-link">Card link</a>
-                                <a href="#" className="card-link">Another link</a>
-                            </div>
-                        </div>
-                    )
-                })}
+                <div className="row justify-content-between align-middle my-3">
+                    <h2>My Works.</h2>
+                    <i className="fas fa-plus fa-3x" onClick={this.props.addWork}></i>
+                </div>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Last Updated</th>
+                        <th scope="col"># Versions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {this.props.data.map((item, index) => {
+                        console.log(index, item)
+                        return (
+                            <tr key={item.id}>
+                                <th>1</th>
+                                <td>{item.created}</td>
+                                <td>{item.last_updated}</td>
+                                <td>{item.newest_version}</td>
+                            </tr>
+                        )
+                    })}
+                    </tbody>
+                </table>
             </div>
         )
     }

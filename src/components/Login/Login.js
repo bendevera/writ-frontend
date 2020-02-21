@@ -25,6 +25,17 @@ class Login extends React.Component {
     }
 
     render() {
+        if (this.props.error) {
+            var errorMessage = (
+                <div className="alert alert-danger">
+                    {this.props.error}
+                </div>
+            );
+        } else {
+            var errorMessage = (
+                <div></div>
+            );
+        }
         return (
             <div className="container my-2">
                 <h2>Login to your account.</h2>
@@ -37,6 +48,7 @@ class Login extends React.Component {
                         <label>Password</label>
                         <input name="password" onChange={this.handleChange} type="password" className="form-control" />
                     </div>
+                    {errorMessage}
                     <button className="btn btn-outline-dark" onClick={this.handleSubmit}>Submit</button>
                 </form>
             </div>

@@ -5,6 +5,10 @@ function getAuthToken() {
     return localStorage.getItem('writToken');
 }
 
+function getAuthQueryString() {
+    return "?token=" + getAuthToken()
+}
+
 
 export const loginAction = function(email, password){
     return new Promise((resolve, reject) => {
@@ -32,6 +36,10 @@ export const loginAction = function(email, password){
     })
 }
 
+export const logoutAction = function(){
+    localStorage.removeItem("writToken")
+    return true
+}
 
 export const registerAction = function(email, password){
     return new Promise((resolve, reject) => {
@@ -56,10 +64,34 @@ export const registerAction = function(email, password){
     })
 }
 
+export const checkAuth = function(){
+    return new Promise((resolve, reject) => {
+        fetch(Config.apiURL+ "/auth/status", {
+            headers: {
+                'Authorization': 'Bearer '+ getAuthToken()
+            }
+        })
+        .then(response => response.json())
+        .then(responseJson => {
+            console.log(responseJson)
+            console.log(responseJson['status'] == 'success')
+            if (responseJson['status'] == 'success') {
+                resolve(true)
+            } else {
+                resolve(false)
+            }
+            
+        })
+        .catch((error) => {
+            reject(error)
+        })
+    })
+}
+
 
 export const getWorks = function(){
     return new Promise((resolve, reject) => {
-        fetch(Config.apiURL+ "/works?token="+getAuthToken())
+        fetch(Config.apiURL+ "/works"+getAuthQueryString())
         .then(response => response.json())
         .then(responseJson => {
             console.log(responseJson)
@@ -70,6 +102,31 @@ export const getWorks = function(){
                 console.log("FAIL")
             }
             
+        })
+    })
+}
+
+
+export const makeWork = function(){
+    return new Promise((resolve, reject) => {
+        fetch(Config.apiURL + "/works"+getAuthQueryString(), {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token: getAuthToken()
+            })
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson)
+            resolve(responseJson['data'])
+        })
+        .catch((error) => {
+            console.log(error)
+            reject(error)
         })
     })
 }
