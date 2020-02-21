@@ -1,5 +1,9 @@
+// const Config = {
+//     apiURL: "https://writ-api.herokuapp.com"
+// }
+
 const Config = {
-    apiURL: "https://writ-api.herokuapp.com"
+    apiURL: "http://localhost:5000"
 }
 
 export default Config;

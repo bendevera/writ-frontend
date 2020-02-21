@@ -51,8 +51,15 @@ class App extends React.Component {
   }
 
   getMyWorks = () => {
-    let works = getWorks()
-    console.log(works)
+    getWorks()
+      .then((data) => {
+        this.setState({
+          works: data
+        })
+      })
+      .catch((error) => {
+        console.log("ERROR")
+      })
   }
 
   render() {
