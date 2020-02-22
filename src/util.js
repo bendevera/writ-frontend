@@ -31,6 +31,10 @@ export const loginAction = function(email, password){
             // localStorage.setItem('itemName', value)
             // localStorage.getItem('itemName')
         })
+        .catch((error) => {
+            console.log(error)
+            reject("Error with request. Please try again.")
+        })
     })
 }
 
@@ -56,6 +60,10 @@ export const registerAction = function(email, password){
                 resolve("Logged in.");
             }
             reject(responseJson['message']);
+        })
+        .catch((error) => {
+            console.log(error)
+            reject("Error with request. Please try again.")
         })
     })
 }
@@ -109,6 +117,52 @@ export const makeWork = function(){
             },
             body: JSON.stringify({
                 token: getAuthToken()
+            })
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            resolve(responseJson['data'])
+        })
+        .catch((error) => {
+            reject(error)
+        })
+    })
+}
+
+export const makeVersion = function(workId){
+    return new Promise((resolve, reject) => {
+        console.log(Config.apiURL + "/works/"+workId.toString()+getAuthQueryString())
+        fetch(Config.apiURL + "/works/"+workId.toString()+"/versions"+getAuthQueryString(), {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token: getAuthToken()
+            })
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            resolve(responseJson['data'])
+        })
+        .catch((error) => {
+            reject(error)
+        })
+    })
+}
+
+export const saveVersion = function(data){
+    return new Promise((resolve, reject) => {
+        fetch(Config.apiURL + "/works/"+data.workId.toString()+"/versions/"+data.number.toString()+getAuthQueryString(), {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: data.title,
+                text: data.text
             })
         })
         .then((response) => response.json())

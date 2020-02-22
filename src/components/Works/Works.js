@@ -16,9 +16,9 @@ class Works extends React.Component {
             <div className="container">
                 <div className="row justify-content-between align-middle my-3">
                     <h2>My Works.</h2>
-                    <i className="fas fa-plus fa-3x" onClick={this.props.addWork}></i>
+                    <i className="fas fa-plus fa-3x add-work" onClick={this.props.addWork}></i>
                 </div>
-                <table className="table">
+                <table className="table table-hover">
                     <thead className="thead-dark">
                         <tr>
                         <th scope="col">Name</th>
@@ -31,7 +31,7 @@ class Works extends React.Component {
                     {this.props.data.map((item, index) => {
                         console.log(index, item)
                         return (
-                            <tr key={item.id} onClick={this.handleClick}>
+                            <tr className="my-table-elem" key={item.id} onClick={this.handleClick}>
                                 <th value={item.id}>{item.title}</th>
                                 <td value={item.id}>{item.created}</td>
                                 <td value={item.id}>{item.last_updated}</td>

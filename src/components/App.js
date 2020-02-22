@@ -14,7 +14,9 @@ import {
   registerAction, 
   getWorks,
   makeWork,
-  checkAuth
+  checkAuth,
+  saveVersion,
+  makeVersion
 } from '../util';
 import './App.css';
 
@@ -30,7 +32,11 @@ class App extends React.Component {
         title: "Untitled",
         text: "This is a test"
       },
-      focusWork: null
+      currWorkId: null,
+      currTitle: '',
+      currText: '',
+      currVersions: [],
+      currNum: 1
     }
 
   }
@@ -51,6 +57,12 @@ class App extends React.Component {
       console.log(error)
     })
   }
+
+  // componentDidUpdate(prevProps) {
+  //   console.log("UPDATE")
+  //   console.log(prevProps)
+  //   console.log(this.props)
+  // }
 
   handleLogin = (email, password) => {
     loginAction(email, password)
@@ -127,11 +139,34 @@ class App extends React.Component {
     this.state.works.map((item) => {
       if (item.id == id) {
         this.setState({
-          focusWork: item
+          currWorkId: item.id,
+          currTitle: item.title,
+          currText: item.versions[0].text,
+          currNum: item.versions[0].number,
+          currVersions: item.versions
         })
         history.push('/version') 
       }
     })
+  }
+
+  sendSave = (data) => {
+    saveVersion(data)
+      .then((result) => {
+        console.log("RESULT OF SAVE")
+        console.log(result)
+      })
+  }
+
+  createVersion = (workId) => {
+    makeVersion(workId)
+      .then((result) => {
+        console.log(result)
+        this.setState({
+          currNum: result.number,
+          currVersions: [...this.state.currVersions, result]
+        })
+      })
   }
 
   render() {
@@ -161,7 +196,13 @@ class App extends React.Component {
             path="/version"
             render={(props) => <Version 
                                   {...props}
-                                  data={this.state.focusWork} />}
+                                  workId={this.state.currWorkId}
+                                  title={this.state.currTitle}
+                                  text={this.state.currText}
+                                  number={this.state.currNum}
+                                  versions={this.state.currVersions}
+                                  sendSave={this.sendSave}
+                                  createVersion={this.createVersion} />}
           />
         </div>
       </Router>

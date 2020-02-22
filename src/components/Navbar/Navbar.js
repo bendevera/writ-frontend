@@ -8,8 +8,8 @@ const Navbar = (props) => {
             <nav className="navbar navbar-light bg-light justify-content-between">
                 <Link to="/"><span className="navbar-brand mb-0 h1">writ</span></Link>
                 <div className="row">
-                    <Link to="/works"><button className="btn btn-outline-dark mx-2">Works</button></Link>
-                    <button className="btn btn-outline-dark" onClick={props.signalLogout}>Logout</button>
+                    <Link to="/works"><span className="nav-link">Works</span></Link>
+                    <span className="nav-link" onClick={props.signalLogout}>Logout</span>
                 </div>
             </nav>
         )
@@ -17,7 +17,10 @@ const Navbar = (props) => {
     return (
         <nav className="navbar navbar-light bg-light justify-content-between">
             <Link to="/"><span className="navbar-brand mb-0 h1">writ</span></Link>
-            <Link to="/login"><button className="btn btn-outline-dark">Login</button></Link>
+            <div className="row">
+                <Link to="/login"><span className="nav-link">Login</span></Link>
+                <Link to="/register"><span className="nav-link">Register</span></Link>
+            </div>
         </nav>
     )
 }
