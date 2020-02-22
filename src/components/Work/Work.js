@@ -91,7 +91,7 @@ class Work extends React.Component {
     }
 
     handleNew = (e) => {
-        this.props.createVersion(this.state.workId)
+        this.props.createVersion(this.state.workId, this.state.currNum)
     }
 
     handleDelete = (e) => {
@@ -123,7 +123,11 @@ class Work extends React.Component {
         return (
             <div className="container my-2">
                 <div className="btn-toolbar justify-content-between">
-                    <div className="btn-group mr-2">
+                    <div className="btn-group">
+                        <button className="btn btn-dark">Single</button>
+                        <button className="btn btn-light disabled">Comparison</button>
+                    </div>
+                    <div className="btn-group">
                         {this.state.versions.map((item) => {
                             if (item.number == this.state.currNum) {
                                 if (item.unsavedChanges) {
@@ -140,7 +144,7 @@ class Work extends React.Component {
                                         className="btn btn-light" 
                                         key={item.number} 
                                         value={item.number}
-                                        onClick={this.versionChange}>V{item.number}</button>
+                                        onClick={this.versionChange}>V{item.number} <span style={{color: "Tomato"}}><i className="fas fa-dot-circle"></i></span></button>
                                 )
                             }
                             if (item.unsavedChanges) {
@@ -164,7 +168,7 @@ class Work extends React.Component {
                     <div className="btn-group">
                         <button className="btn" onClick={this.handleDelete}><i className="fas fa-trash-alt"></i></button>
                         <button className="btn" onClick={this.handleSave}><i className="fas fa-save"></i></button>
-                        <button className="btn" onClick={this.handleNew}><i className="fas fa-plus"></i></button>
+                        <button className="btn" onClick={this.handleNew}><i className="fas fa-copy"></i></button>
                     </div>
                 </div>
                 <input 

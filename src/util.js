@@ -129,7 +129,7 @@ export const makeWork = function(){
     })
 }
 
-export const makeVersion = function(workId){
+export const makeVersion = function(workId, versionNum){
     return new Promise((resolve, reject) => {
         console.log(Config.apiURL + "/works/"+workId.toString()+getAuthQueryString())
         fetch(Config.apiURL + "/works/"+workId.toString()+"/versions"+getAuthQueryString(), {
@@ -139,7 +139,7 @@ export const makeVersion = function(workId){
             'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                token: getAuthToken()
+                number: versionNum
             })
         })
         .then((response) => response.json())

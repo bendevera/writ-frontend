@@ -159,12 +159,13 @@ class App extends React.Component {
       })
   }
 
-  createVersion = (workId) => {
-    makeVersion(workId)
+  createVersion = (workId, versionNum) => {
+    makeVersion(workId, versionNum)
       .then((result) => {
         console.log(result)
         this.setState({
           currNum: result.number,
+          currText: result.text,
           currVersions: [...this.state.currVersions, result]
         })
       })

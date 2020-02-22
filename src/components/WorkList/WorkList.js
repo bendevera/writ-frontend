@@ -14,9 +14,9 @@ class WorkList extends React.Component {
     render() {
         return (
             <div className="container">
-                <div className="row justify-content-between align-middle my-3">
-                    <h2>My Works.</h2>
-                    <i className="fas fa-plus fa-3x add-work" onClick={this.props.addWork}></i>
+                <div className="row justify-content-between my-3 px-3">
+                    <h2><i className="fas fa-sticky-note"></i> My Works.</h2>
+                    <i className="fas fa-plus fa-2x add-work" onClick={this.props.addWork}></i>
                 </div>
                 <table className="table table-hover">
                     <thead className="thead-dark">
