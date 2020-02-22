@@ -174,3 +174,18 @@ export const saveVersion = function(data){
         })
     })
 }
+
+export const deleteVersion = function(workId, number){
+    return new Promise((resolve, reject) => {
+        fetch(Config.apiURL + "/works/"+workId.toString()+"/versions/"+number.toString()+getAuthQueryString(), {
+            method: 'DELETE'
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            resolve(responseJson['data'])
+        })
+        .catch((error) => {
+            reject(error)
+        })
+    })
+}

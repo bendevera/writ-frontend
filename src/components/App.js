@@ -16,7 +16,8 @@ import {
   makeWork,
   checkAuth,
   saveVersion,
-  makeVersion
+  makeVersion,
+  deleteVersion
 } from '../util';
 import './App.css';
 
@@ -169,6 +170,17 @@ class App extends React.Component {
       })
   }
 
+  removeVersion = (workId, number) => {
+    deleteVersion(workId, number)
+      .then((result) => {
+        console.log("DELETED")
+        console.log(result)
+      })
+      .catch((error) => {
+        console.log("ERROR DELETING")
+      })
+  }
+
   render() {
     return (
       <Router history={history}>
@@ -202,7 +214,8 @@ class App extends React.Component {
                                   number={this.state.currNum}
                                   versions={this.state.currVersions}
                                   sendSave={this.sendSave}
-                                  createVersion={this.createVersion} />}
+                                  createVersion={this.createVersion} 
+                                  removeVersion={this.removeVersion}/>}
           />
         </div>
       </Router>
