@@ -29,12 +29,13 @@ class App extends React.Component {
       temp_version_data: {
         title: "Untitled",
         text: "This is a test"
-      }
+      },
+      focusWork: null
     }
 
   }
 
-  componentWillMount() {
+  componentDidMount() {
     checkAuth()
     .then((result) => {
       console.log("RESULT")
@@ -122,6 +123,17 @@ class App extends React.Component {
       })
   }
 
+  focusOnWork = (id) => {
+    this.state.works.map((item) => {
+      if (item.id == id) {
+        this.setState({
+          focusWork: item
+        })
+        history.push('/version') 
+      }
+    })
+  }
+
   render() {
     return (
       <Router history={history}>
@@ -142,13 +154,14 @@ class App extends React.Component {
                                   {...props} 
                                   data={this.state.works} 
                                   fetchData={this.getMyWorks}
-                                  addWork={this.createWork} />} 
+                                  addWork={this.createWork} 
+                                  focusWork={this.focusOnWork} />} 
           /> 
           <Route 
             path="/version"
             render={(props) => <Version 
                                   {...props}
-                                  data={this.state.temp_version_data} />}
+                                  data={this.state.focusWork} />}
           />
         </div>
       </Router>

@@ -25,14 +25,15 @@ class Login extends React.Component {
     }
 
     render() {
+        var errorMessage;
         if (this.props.error) {
-            var errorMessage = (
+            errorMessage = (
                 <div className="alert alert-danger">
                     {this.props.error}
                 </div>
             );
         } else {
-            var errorMessage = (
+            errorMessage = (
                 <div></div>
             );
         }

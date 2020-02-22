@@ -2,12 +2,13 @@ import React from 'react';
 
 
 class Works extends React.Component {
-    constructor(props) {
-        super(props)
+
+    componentDidMount() {
+        this.props.fetchData()
     }
 
-    componentWillMount() {
-        this.props.fetchData()
+    handleClick = (e) => {
+        this.props.focusWork(e.target.getAttribute("value"))
     }
 
     render() {
@@ -17,8 +18,8 @@ class Works extends React.Component {
                     <h2>My Works.</h2>
                     <i className="fas fa-plus fa-3x" onClick={this.props.addWork}></i>
                 </div>
-                <table class="table">
-                    <thead class="thead-dark">
+                <table className="table">
+                    <thead className="thead-dark">
                         <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Created</th>
@@ -30,11 +31,11 @@ class Works extends React.Component {
                     {this.props.data.map((item, index) => {
                         console.log(index, item)
                         return (
-                            <tr key={item.id}>
-                                <th>1</th>
-                                <td>{item.created}</td>
-                                <td>{item.last_updated}</td>
-                                <td>{item.newest_version}</td>
+                            <tr key={item.id} onClick={this.handleClick}>
+                                <th value={item.id}>{item.title}</th>
+                                <td value={item.id}>{item.created}</td>
+                                <td value={item.id}>{item.last_updated}</td>
+                                <td value={item.id}>{item.newest_version}</td>
                             </tr>
                         )
                     })}

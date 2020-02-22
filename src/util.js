@@ -24,8 +24,6 @@ export const loginAction = function(email, password){
         .then(responseJson => {
             console.log(responseJson)
             if (responseJson['status'] == 'success') {
-                console.log("Setting writToken")
-                console.log(responseJson['auth_token'])
                 localStorage.setItem('writToken', responseJson['auth_token']);
                 resolve("Logged in.");
             }
@@ -53,9 +51,7 @@ export const registerAction = function(email, password){
         })
         .then(response => response.json())
         .then(responseJson => {
-            console.log(responseJson)
             if (responseJson['status'] == 'success') {
-                console.log("Setting writToken")
                 localStorage.setItem('writToken', responseJson['auth_token']);
                 resolve("Logged in.");
             }
@@ -73,8 +69,6 @@ export const checkAuth = function(){
         })
         .then(response => response.json())
         .then(responseJson => {
-            console.log(responseJson)
-            console.log(responseJson['status'] == 'success')
             if (responseJson['status'] == 'success') {
                 resolve(true)
             } else {
@@ -94,12 +88,10 @@ export const getWorks = function(){
         fetch(Config.apiURL+ "/works"+getAuthQueryString())
         .then(response => response.json())
         .then(responseJson => {
-            console.log(responseJson)
-            console.log(responseJson['status'] == 'success')
             if (responseJson['status'] == 'success') {
                 resolve(responseJson.data)
             } else {
-                console.log("FAIL")
+                reject(responseJson['message'])
             }
             
         })
@@ -121,11 +113,9 @@ export const makeWork = function(){
         })
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson)
             resolve(responseJson['data'])
         })
         .catch((error) => {
-            console.log(error)
             reject(error)
         })
     })
