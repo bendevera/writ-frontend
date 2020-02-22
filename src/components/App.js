@@ -6,8 +6,8 @@ import Navbar from './Navbar/Navbar';
 import Home from './Home/Home';
 import Register from './Register/Register';
 import Login from './Login/Login';
-import Works from './Works/Works';
-import Version from './Version/Version';
+import WorkList from './WorkList/WorkList';
+import Work from './Work/Work';
 import { 
   loginAction, 
   logoutAction, 
@@ -197,7 +197,7 @@ class App extends React.Component {
           />
           <Route 
             path="/works" 
-            render={(props) => <Works 
+            render={(props) => <WorkList 
                                   {...props} 
                                   data={this.state.works} 
                                   fetchData={this.getMyWorks}
@@ -206,7 +206,7 @@ class App extends React.Component {
           /> 
           <Route 
             path="/version"
-            render={(props) => <Version 
+            render={(props) => <Work
                                   {...props}
                                   workId={this.state.currWorkId}
                                   title={this.state.currTitle}

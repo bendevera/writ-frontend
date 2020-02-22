@@ -1,9 +1,9 @@
 import React from 'react';
 import history from '../../history';
-import './Version.css';
+import './Work.css';
 
 
-class Version extends React.Component {
+class Work extends React.Component {
     constructor(props) {
         super(props)
         console.log(this.props.data)
@@ -183,4 +183,4 @@ class Version extends React.Component {
 }
 
 
-export default Version;
+export default Work;

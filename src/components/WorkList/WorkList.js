@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-class Works extends React.Component {
+class WorkList extends React.Component {
 
     componentDidMount() {
         this.props.fetchData()
@@ -47,4 +47,4 @@ class Works extends React.Component {
 } 
 
 
-export default Works;
+export default WorkList;
