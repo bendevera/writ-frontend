@@ -37,7 +37,15 @@ class App extends React.Component {
       currTitle: '',
       currText: '',
       currVersions: [],
-      currNum: 1
+      currNum: 1,
+      texts: {
+          one: '',
+          two: ''
+      },
+      currNums: {
+          one: 1,
+          two: 2
+      }
     }
 
   }
@@ -59,18 +67,11 @@ class App extends React.Component {
     })
   }
 
-  // componentDidUpdate(prevProps) {
-  //   console.log("UPDATE")
-  //   console.log(prevProps)
-  //   console.log(this.props)
-  // }
-
   handleLogin = (email, password) => {
     loginAction(email, password)
       .then((result) => {
         console.log("Should push /works")
         history.push('/works')
-        // isn't working for some reason maybe need to bind this
         this.setState({
           authenticated: true
         })
@@ -212,11 +213,13 @@ class App extends React.Component {
                                   workId={this.state.currWorkId}
                                   title={this.state.currTitle}
                                   text={this.state.currText}
-                                  number={this.state.currNum}
+                                  currNum={this.state.currNum}
                                   versions={this.state.currVersions}
                                   sendSave={this.sendSave}
                                   createVersion={this.createVersion} 
-                                  removeVersion={this.removeVersion}/>}
+                                  removeVersion={this.removeVersion}
+                                  texts={this.state.texts}
+                                  currNums={this.state.currNums}/>}
           />
         </div>
       </Router>
