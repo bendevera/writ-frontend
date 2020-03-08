@@ -70,11 +70,7 @@ export const registerAction = function(email, password){
 
 export const checkAuth = function(){
     return new Promise((resolve, reject) => {
-        fetch(Config.apiURL+ "/auth/status", {
-            headers: {
-                'Authorization': 'Bearer '+ getAuthToken()
-            }
-        })
+        fetch(Config.apiURL+ "/auth/status"+getAuthQueryString())
         .then(response => response.json())
         .then(responseJson => {
             if (responseJson['status'] == 'success') {

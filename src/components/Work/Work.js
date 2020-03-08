@@ -1,5 +1,6 @@
 import React from 'react';
 import history from '../../history';
+import { diffChars } from 'diff';
 import './Work.css';
 
 
@@ -7,9 +8,10 @@ class Work extends React.Component {
     constructor(props) {
         super(props)
         console.log(this.props.data)
+        let versionData = this.props.versions.sort((a, b) => (a.number > b.number) ? 1 : -1)
         this.state = {
             title: this.props.title,
-            versions: this.props.versions,
+            versions: versionData,
             workId: this.props.workId,
             mode: 'Single',
             text: this.props.text,
@@ -92,6 +94,9 @@ class Work extends React.Component {
             })
             newTexts.two = value;
         }
+        let colorCodes = diffChars(newTexts.one, newTexts.two)
+        console.log("DIFF CHARS")
+        console.log(colorCodes)
         this.setState({
             texts: newTexts,
             versions: newVersions
@@ -213,8 +218,15 @@ class Work extends React.Component {
                 texts: newTexts
             })
         } else {
+            let newText = ''
+            this.state.versions.map(item => {
+                if (item.number == this.state.currNum) {
+                    newText = item.text
+                }
+            })
             this.setState({
-                mode: newMode
+                mode: newMode,
+                text: newText
             })
         }
     }

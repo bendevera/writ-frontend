@@ -19,7 +19,7 @@ class WorkList extends React.Component {
                     <i className="fas fa-plus fa-2x add-work" onClick={this.props.addWork}></i>
                 </div>
                 <table className="table table-hover">
-                    <thead className="thead-dark">
+                    <thead>
                         <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Created</th>
