@@ -7,7 +7,6 @@ import './Work.css';
 class Work extends React.Component {
     constructor(props) {
         super(props)
-        console.log(this.props.data)
         let versionData = this.props.versions.sort((a, b) => (a.number > b.number) ? 1 : -1)
         this.state = {
             title: this.props.title,
@@ -23,7 +22,9 @@ class Work extends React.Component {
             currNums: {
                 one: this.props.currNums.one,
                 two: this.props.currNums.two
-            }
+            },
+            showAnalysis: false,
+            diffChars: []
         }
     }
 
@@ -48,6 +49,16 @@ class Work extends React.Component {
             console.log("HAVE NULL workID")
             history.push('/works')
         }
+    }
+
+    componentDidMount() {
+        this.state.versions.map(item => {
+            if (item.number == 1) {
+                this.setState({
+                    text: item.text
+                })
+            }
+        })
     }
 
     handleChange = (e) => {
@@ -94,12 +105,25 @@ class Work extends React.Component {
             })
             newTexts.two = value;
         }
-        let colorCodes = diffChars(newTexts.one, newTexts.two)
-        console.log("DIFF CHARS")
-        console.log(colorCodes)
         this.setState({
             texts: newTexts,
             versions: newVersions
+        })
+    }
+
+    getAnalysis = () => {
+        let colorCodes = diffChars(this.state.texts.one, this.state.texts.two)
+        console.log("DIFF CHARS")
+        console.log(colorCodes)
+        this.setState({
+            showAnalysis: true,
+            diffChars: colorCodes
+        })
+    }
+
+    hideAnalysis = () => {
+        this.setState({
+            showAnalysis: false
         })
     }
 
@@ -107,7 +131,6 @@ class Work extends React.Component {
         var currValue = e.target.getAttribute("value");
         this.state.versions.map((item) => {
             if (item.number == currValue) {
-                console.log(item.text)
                 if (this.state.mode === 'Comparison') {
                     let newNums = this.state.currNums 
                     newNums.two = newNums.one 
@@ -311,6 +334,99 @@ class Work extends React.Component {
                 </div>
             )
         } else {
+            if (this.state.showAnalysis) {
+                return (
+                    <div className="container my-2">
+                        <div className="btn-toolbar justify-content-between">
+                            <div className="btn-group">
+                                <button className="btn btn-light" onClick={this.changeMode}>Single</button>
+                                <button className="btn btn-dark active">Comparison</button>
+                            </div>
+                            <div className="btn-group">
+                                {this.state.versions.map((item) => {
+                                    if (item.number == this.state.currNums.one || item.number == this.state.currNums.two) {
+                                        if (item.unsavedChanges) {
+                                            return (
+                                                <button 
+                                                    className="btn btn-light" 
+                                                    key={item.number} 
+                                                    value={item.number}
+                                                    onClick={this.versionChange}>V{item.number} <span style={{color: "Tomato"}}><i className="fas fa-dot-circle"></i></span>  <span value={item.number} className="badge badge-secondary font-italic">edited</span>
+                                                    </button>
+                                            )
+                                        }
+                                        return (
+                                            <button 
+                                                className="btn btn-light" 
+                                                key={item.number} 
+                                                value={item.number}
+                                                onClick={this.versionChange}>V{item.number} <span style={{color: "Tomato"}}><i className="fas fa-dot-circle"></i></span></button>
+                                        )
+                                    }
+                                    if (item.unsavedChanges) {
+                                        return (
+                                            <button 
+                                                className="btn btn-dark" 
+                                                key={item.number} 
+                                                value={item.number}
+                                                onClick={this.versionChange}>V{item.number} <span value={item.number} className="badge badge-secondary font-italic">edited</span></button>
+                                        )
+                                    }
+                                    return (
+                                        <button 
+                                            className="btn btn-dark" 
+                                            key={item.number} 
+                                            value={item.number}
+                                            onClick={this.versionChange}>V{item.number}</button>
+                                    )
+                                })}
+                            </div>
+                            <div className="btn-group">
+                                <button className="btn" onClick={this.hideAnalysis}><i className="fas fa-pen"></i></button>
+                                <button className="btn" onClick={this.handleSave}><i className="fas fa-save"></i></button>
+                            </div>
+                        </div>
+                        <input 
+                            name="title" 
+                            value={this.state.title} 
+                            className="version-title" 
+                            onChange={this.handleChange} />
+                        <div style={{display: "inline-block"}}>
+                            {this.state.diffChars.map((item, index) => {
+                                let value = item.value.replace(/(?:\r\n|\r|\n)/g, '<br>');
+                                if (item.added) {
+                                    return (
+                                        <mark key={index} style={{
+                                            backgroundColor: "#b0ffc5",
+                                            color: "black"
+                                            }}
+                                            dangerouslySetInnerHTML={{__html: value}}
+                                            />
+                                    )
+                                } else if (item.removed) {
+                                    return (
+                                        <mark key={index} style={{
+                                            backgroundColor: "#fcb3b1",
+                                            color: "black"
+                                            }}
+                                            dangerouslySetInnerHTML={{__html: value}}
+                                            />
+                                    )
+                                } else {
+                                    return (
+                                        <mark key={index} style={{
+                                            backgroundColor: "#fff",
+                                            color: "black"
+                                            }}
+                                            dangerouslySetInnerHTML={{__html: value}}
+                                            />
+                                    )
+                                }
+                            })}
+                        </div>
+                    </div>
+                )
+            }
             return (
                 <div className="container my-2">
                     <div className="btn-toolbar justify-content-between">
@@ -358,6 +474,7 @@ class Work extends React.Component {
                             })}
                         </div>
                         <div className="btn-group">
+                            <button className="btn" onClick={this.getAnalysis}><i className="fas fa-chart-bar"></i></button>
                             <button className="btn" onClick={this.handleSave}><i className="fas fa-save"></i></button>
                         </div>
                     </div>

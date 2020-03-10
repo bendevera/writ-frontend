@@ -144,7 +144,7 @@ class App extends React.Component {
           currWorkId: item.id,
           currTitle: item.title,
           currText: item.versions[0].text,
-          currNum: item.versions[0].number,
+          currNum: 1,
           currVersions: item.versions
         })
         history.push('/version') 

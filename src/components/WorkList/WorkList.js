@@ -21,10 +21,10 @@ class WorkList extends React.Component {
                 <table className="table table-hover">
                     <thead>
                         <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Created</th>
-                        <th scope="col">Last Updated</th>
-                        <th scope="col"># Versions</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Last Updated</th>
+                            <th scope="col"># Versions</th>
                         </tr>
                     </thead>
                     <tbody>
