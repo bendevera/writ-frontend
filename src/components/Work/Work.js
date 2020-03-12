@@ -1,6 +1,8 @@
 import React from 'react';
 import history from '../../history';
 import { diffChars } from 'diff';
+import ModeButtons from './ModeButtons';
+import ButtonBar from './ButtonBar';
 import './Work.css';
 
 
@@ -255,72 +257,22 @@ class Work extends React.Component {
     }
 
     render() {
-        var modeButtons;
         if (this.state.mode == 'Single') {
-            if (this.state.versions.length > 1) {
-                modeButtons = (
-                    <div className="btn-group">
-                        <button className="btn btn-dark active">Single</button>
-                        <button className="btn btn-light" onClick={this.changeMode}>Comparison</button>
-                    </div>
-                )
-            } else {
-                modeButtons = (
-                    <div className="btn-group">
-                        <button className="btn btn-dark active">Single</button>
-                        <button className="btn btn-light disabled">Comparison</button>
-                    </div>
-                )
-            }
             return (
                 <div className="container my-2">
-                    <div className="btn-toolbar justify-content-between">
-                        {modeButtons}
-                        <div className="btn-group">
-                            {this.state.versions.map((item) => {
-                                if (item.number == this.state.currNum) {
-                                    if (item.unsavedChanges) {
-                                        return (
-                                            <button 
-                                                className="btn btn-light" 
-                                                key={item.number} 
-                                                value={item.number}
-                                                onClick={this.versionChange}>V{item.number} <span style={{color: "Tomato"}}><i className="fas fa-dot-circle"></i></span>  <span value={item.number} className="badge badge-secondary font-italic">edited</span>
-                                                </button>
-                                        )
-                                    }
-                                    return (
-                                        <button 
-                                            className="btn btn-light" 
-                                            key={item.number} 
-                                            value={item.number}
-                                            onClick={this.versionChange}>V{item.number} <span style={{color: "Tomato"}}><i className="fas fa-dot-circle"></i></span></button>
-                                    )
-                                }
-                                if (item.unsavedChanges) {
-                                    return (
-                                        <button 
-                                            className="btn btn-dark" 
-                                            key={item.number} 
-                                            value={item.number}
-                                            onClick={this.versionChange}>V{item.number} <span value={item.number} className="badge badge-secondary font-italic">edited</span></button>
-                                    )
-                                }
-                                return (
-                                    <button 
-                                        className="btn btn-dark" 
-                                        key={item.number} 
-                                        value={item.number}
-                                        onClick={this.versionChange}>V{item.number}</button>
-                                )
-                            })}
-                        </div>
-                        <div className="btn-group">
-                            <button className="btn" onClick={this.handleDelete}><i className="fas fa-trash-alt"></i></button>
-                            <button className="btn" onClick={this.handleSave}><i className="fas fa-save"></i></button>
-                            <button className="btn" onClick={this.handleNew}><i className="fas fa-copy"></i></button>
-                        </div>
-                    </div>
+                    <ButtonBar
+                        versions={this.state.versions}
+                        mode={this.state.mode}
+                        changeMode={this.changeMode}
+                        versionChange={this.versionChange}
+                        handleDelete={this.handleDelete}
+                        handleSave={this.handleSave}
+                        handleNew={this.handleNew}
+                        currNum={this.state.currNum}
+                        currNums={this.state.currNums}
+                        hideAnalysis={this.hideAnalysis}
+                        getAnalysis={this.getAnalysis}
+                        showAnalysis={this.state.showAnalysis} />
                     <input 
                         name="title" 
                         value={this.state.title} 
@@ -337,147 +289,75 @@ class Work extends React.Component {
             if (this.state.showAnalysis) {
                 return (
                     <div className="container my-2">
-                        <div className="btn-toolbar justify-content-between">
-                            <div className="btn-group">
-                                <button className="btn btn-light" onClick={this.changeMode}>Single</button>
-                                <button className="btn btn-dark active">Comparison</button>
-                            </div>
-                            <div className="btn-group">
-                                {this.state.versions.map((item) => {
-                                    if (item.number == this.state.currNums.one || item.number == this.state.currNums.two) {
-                                        if (item.unsavedChanges) {
-                                            return (
-                                                <button 
-                                                    className="btn btn-light" 
-                                                    key={item.number} 
-                                                    value={item.number}
-                                                    onClick={this.versionChange}>V{item.number} <span style={{color: "Tomato"}}><i className="fas fa-dot-circle"></i></span>  <span value={item.number} className="badge badge-secondary font-italic">edited</span>
-                                                    </button>
-                                            )
-                                        }
-                                        return (
-                                            <button 
-                                                className="btn btn-light" 
-                                                key={item.number} 
-                                                value={item.number}
-                                                onClick={this.versionChange}>V{item.number} <span style={{color: "Tomato"}}><i className="fas fa-dot-circle"></i></span></button>
-                                        )
-                                    }
-                                    if (item.unsavedChanges) {
-                                        return (
-                                            <button 
-                                                className="btn btn-dark" 
-                                                key={item.number} 
-                                                value={item.number}
-                                                onClick={this.versionChange}>V{item.number} <span value={item.number} className="badge badge-secondary font-italic">edited</span></button>
-                                        )
-                                    }
-                                    return (
-                                        <button 
-                                            className="btn btn-dark" 
-                                            key={item.number} 
-                                            value={item.number}
-                                            onClick={this.versionChange}>V{item.number}</button>
-                                    )
-                                })}
-                            </div>
-                            <div className="btn-group">
-                                <button className="btn" onClick={this.hideAnalysis}><i className="fas fa-pen"></i></button>
-                                <button className="btn" onClick={this.handleSave}><i className="fas fa-save"></i></button>
-                            </div>
-                        </div>
+                        <ButtonBar
+                            versions={this.state.versions}
+                            mode={this.state.mode}
+                            changeMode={this.changeMode}
+                            versionChange={this.versionChange}
+                            handleDelete={this.handleDelete}
+                            handleSave={this.handleSave}
+                            handleNew={this.handleNew}
+                            currNum={this.state.currNum}
+                            currNums={this.state.currNums}
+                            hideAnalysis={this.hideAnalysis}
+                            getAnalysis={this.getAnalysis}
+                            showAnalysis={this.state.showAnalysis} />
                         <input 
                             name="title" 
                             value={this.state.title} 
                             className="version-title" 
                             onChange={this.handleChange} />
-                        <div style={{display: "inline-block"}}>
-                            {this.state.diffChars.map((item, index) => {
-                                let value = item.value.replace(/(?:\r\n|\r|\n)/g, '<br>');
-                                if (item.added) {
-                                    return (
-                                        <mark key={index} style={{
-                                            backgroundColor: "#b0ffc5",
-                                            color: "black"
-                                            }}
-                                            dangerouslySetInnerHTML={{__html: value}}
-                                            />
-                                    )
-                                } else if (item.removed) {
-                                    return (
-                                        <mark key={index} style={{
-                                            backgroundColor: "#fcb3b1",
-                                            color: "black"
-                                            }}
-                                            dangerouslySetInnerHTML={{__html: value}}
-                                            />
-                                    )
-                                } else {
-                                    return (
-                                        <mark key={index} style={{
-                                            backgroundColor: "#fff",
-                                            color: "black"
-                                            }}
-                                            dangerouslySetInnerHTML={{__html: value}}
-                                            />
-                                    )
-                                }
-                            })}
+                        <div style={{display: "inline-block"}} className="version-analysis bg-light">
+                                {this.state.diffChars.map((item, index) => {
+                                    let value = item.value.replace(/(?:\r\n|\r|\n)/g, '<br>');
+                                    if (item.added) {
+                                        return (
+                                            <mark key={index} style={{
+                                                backgroundColor: "#b0ffc5",
+                                                color: "black"
+                                                }}
+                                                dangerouslySetInnerHTML={{__html: value}}
+                                                />
+                                        )
+                                    } else if (item.removed) {
+                                        return (
+                                            <mark key={index} style={{
+                                                backgroundColor: "#fcb3b1",
+                                                color: "black"
+                                                }}
+                                                dangerouslySetInnerHTML={{__html: value}}
+                                                />
+                                        )
+                                    } else {
+                                        return (
+                                            <mark key={index} style={{
+                                                backgroundColor: "#fff",
+                                                color: "black"
+                                                }}
+                                                dangerouslySetInnerHTML={{__html: value}}
+                                                />
+                                        )
+                                    }
+                                })}
                         </div>
                     </div>
                 )
             }
             return (
                 <div className="container my-2">
-                    <div className="btn-toolbar justify-content-between">
-                        <div className="btn-group">
-                            <button className="btn btn-light" onClick={this.changeMode}>Single</button>
-                            <button className="btn btn-dark active">Comparison</button>
-                        </div>
-                        <div className="btn-group">
-                            {this.state.versions.map((item) => {
-                                if (item.number == this.state.currNums.one || item.number == this.state.currNums.two) {
-                                    if (item.unsavedChanges) {
-                                        return (
-                                            <button 
-                                                className="btn btn-light" 
-                                                key={item.number} 
-                                                value={item.number}
-                                                onClick={this.versionChange}>V{item.number} <span style={{color: "Tomato"}}><i className="fas fa-dot-circle"></i></span>  <span value={item.number} className="badge badge-secondary font-italic">edited</span>
-                                                </button>
-                                        )
-                                    }
-                                    return (
-                                        <button 
-                                            className="btn btn-light" 
-                                            key={item.number} 
-                                            value={item.number}
-                                            onClick={this.versionChange}>V{item.number} <span style={{color: "Tomato"}}><i className="fas fa-dot-circle"></i></span></button>
-                                    )
-                                }
-                                if (item.unsavedChanges) {
-                                    return (
-                                        <button 
-                                            className="btn btn-dark" 
-                                            key={item.number} 
-                                            value={item.number}
-                                            onClick={this.versionChange}>V{item.number} <span value={item.number} className="badge badge-secondary font-italic">edited</span></button>
-                                    )
-                                }
-                                return (
-                                    <button 
-                                        className="btn btn-dark" 
-                                        key={item.number} 
-                                        value={item.number}
-                                        onClick={this.versionChange}>V{item.number}</button>
-                                )
-                            })}
-                        </div>
-                        <div className="btn-group">
-                            <button className="btn" onClick={this.getAnalysis}><i className="fas fa-chart-bar"></i></button>
-                            <button className="btn" onClick={this.handleSave}><i className="fas fa-save"></i></button>
-                        </div>
-                    </div>
+                    <ButtonBar
+                        versions={this.state.versions}
+                        mode={this.state.mode}
+                        changeMode={this.changeMode}
+                        versionChange={this.versionChange}
+                        handleDelete={this.handleDelete}
+                        handleSave={this.handleSave}
+                        handleNew={this.handleNew}
+                        currNum={this.state.currNum}
+                        currNums={this.state.currNums}
+                        hideAnalysis={this.hideAnalysis}
+                        getAnalysis={this.getAnalysis} 
+                        showAnalysis={this.state.showAnalysis}/>
                     <input 
                         name="title" 
                         value={this.state.title} 

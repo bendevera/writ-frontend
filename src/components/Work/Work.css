@@ -15,3 +15,7 @@ textarea, select, input, button { outline: none; }
     height: 750px;
     width: 100%;
 }
+
+.version-analysis {
+    border-left: 1px solid black;
+}
