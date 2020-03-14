@@ -12,9 +12,9 @@ const ModeButtons = (props) => {
         } else {
             return (
                 <div className="btn-group">
-                        <button className="btn btn-light" onClick={props.changeMode}>Single</button>
-                        <button className="btn btn-dark active">Comparison</button>
-                    </div>
+                    <button className="btn btn-light" onClick={props.changeMode}>Single</button>
+                    <button className="btn btn-dark active">Comparison</button>
+                </div>
             )
         }
     } else {

@@ -1,8 +1,9 @@
 import React from 'react';
 import history from '../../history';
 import { diffChars } from 'diff';
-import ModeButtons from './ModeButtons';
+import TextAnalysis from './TextAnalysis';
 import ButtonBar from './ButtonBar';
+import { getSentiment } from '../../util';
 import './Work.css';
 
 
@@ -26,7 +27,13 @@ class Work extends React.Component {
                 two: this.props.currNums.two
             },
             showAnalysis: false,
-            diffChars: []
+            diffChars: [],
+            diffAdded: [],
+            diffRemoved: [],
+            sentiments: {
+                one: null,
+                two: null
+            }
         }
     }
 
@@ -114,18 +121,51 @@ class Work extends React.Component {
     }
 
     getAnalysis = () => {
+        this.getSentiment(this.state.texts.one, 1)
+        this.getSentiment(this.state.texts.two, 2)
         let colorCodes = diffChars(this.state.texts.one, this.state.texts.two)
         console.log("DIFF CHARS")
         console.log(colorCodes)
+        let diffAdded = []
+        let diffRemoved = []
+        colorCodes.map(item => {
+            if (item.added) {
+                diffAdded.push(item)
+            } else if (item.removed) {
+                diffRemoved.push(item)
+            } else {
+                diffAdded.push(item)
+                diffRemoved.push(item)
+            }
+        })
         this.setState({
             showAnalysis: true,
-            diffChars: colorCodes
+            diffChars: colorCodes,
+            diffAdded: diffAdded,
+            diffRemoved: diffRemoved
         })
     }
 
     hideAnalysis = () => {
         this.setState({
             showAnalysis: false
+        })
+    }
+
+    getSentiment = (text, num) => {
+        console.log("Getting sentiment for: "+text)
+        getSentiment(text)
+        .then(result => {
+            console.log(result)
+            let newSentiments = this.state.sentiments
+            if (num == 1) {
+                newSentiments.one = result
+            } else {
+                newSentiments.two = result 
+            }
+            this.setState({
+                sentiments: newSentiments
+            })
         })
     }
 
@@ -307,38 +347,19 @@ class Work extends React.Component {
                             value={this.state.title} 
                             className="version-title" 
                             onChange={this.handleChange} />
-                        <div style={{display: "inline-block"}} className="version-analysis bg-light">
-                                {this.state.diffChars.map((item, index) => {
-                                    let value = item.value.replace(/(?:\r\n|\r|\n)/g, '<br>');
-                                    if (item.added) {
-                                        return (
-                                            <mark key={index} style={{
-                                                backgroundColor: "#b0ffc5",
-                                                color: "black"
-                                                }}
-                                                dangerouslySetInnerHTML={{__html: value}}
-                                                />
-                                        )
-                                    } else if (item.removed) {
-                                        return (
-                                            <mark key={index} style={{
-                                                backgroundColor: "#fcb3b1",
-                                                color: "black"
-                                                }}
-                                                dangerouslySetInnerHTML={{__html: value}}
-                                                />
-                                        )
-                                    } else {
-                                        return (
-                                            <mark key={index} style={{
-                                                backgroundColor: "#fff",
-                                                color: "black"
-                                                }}
-                                                dangerouslySetInnerHTML={{__html: value}}
-                                                />
-                                        )
-                                    }
-                                })}
+                        <div className="row">
+                            <div className="col">
+                                <TextAnalysis 
+                                    data={this.state.diffRemoved} 
+                                    removed={true}
+                                    sentiment={this.state.sentiments.one} />
+                            </div>
+                            <div className="col">
+                                <TextAnalysis 
+                                    data={this.state.diffAdded} 
+                                    removed={false}
+                                    sentiment={this.state.sentiments.two} />
+                            </div>
                         </div>
                     </div>
                 )

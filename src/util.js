@@ -185,3 +185,26 @@ export const deleteVersion = function(workId, number){
         })
     })
 }
+
+export const getSentiment = function(text) {
+    return new Promise((resolve, reject) => {
+        fetch("https://embedding-demo-api.herokuapp.com/predict/sentiment", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                review: text
+            })
+        })
+        .then(response => response.json()) 
+        .then(responseJson => {
+            resolve(responseJson)
+        })
+        .catch(error => {
+            console.log(error)
+            reject(error)
+        })
+    })
+}
