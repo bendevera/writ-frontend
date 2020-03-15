@@ -17,7 +17,8 @@ import {
   checkAuth,
   saveVersion,
   makeVersion,
-  deleteVersion
+  deleteVersion,
+  deleteWork
 } from '../util';
 import './App.css';
 
@@ -137,6 +138,23 @@ class App extends React.Component {
       })
   }
 
+  deleteWork = (id) => {
+    console.log("DELETE")
+    deleteWork(id)
+    .then(result => {
+      let newWorks = this.state.works;
+      newWorks = newWorks.filter(item => {
+        return item.id != id
+      })
+      this.setState({
+        works: newWorks
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
   focusOnWork = (id) => {
     this.state.works.map((item) => {
       if (item.id == id) {
@@ -204,7 +222,8 @@ class App extends React.Component {
                                   data={this.state.works} 
                                   fetchData={this.getMyWorks}
                                   addWork={this.createWork} 
-                                  focusWork={this.focusOnWork} />} 
+                                  focusWork={this.focusOnWork}
+                                  deleteWork={this.deleteWork} />} 
           /> 
           <Route 
             path="/version"

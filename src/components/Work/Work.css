@@ -19,3 +19,7 @@ textarea, select, input, button { outline: none; }
 .version-analysis {
     border-left: 1px solid black;
 }
+
+.progress {
+    margin-bottom: 2%;
+}

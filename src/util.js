@@ -125,6 +125,21 @@ export const makeWork = function(){
     })
 }
 
+export const deleteWork = function(workId){
+    return new Promise((resolve, reject) => {
+        fetch(Config.apiURL + "/works/"+workId.toString()+"/versions"+getAuthQueryString(), {
+            method: 'DELETE'
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            resolve(responseJson['data'])
+        })
+        .catch((error) => {
+            reject(error)
+        })
+    })
+}
+
 export const makeVersion = function(workId, versionNum){
     return new Promise((resolve, reject) => {
         console.log(Config.apiURL + "/works/"+workId.toString()+getAuthQueryString())

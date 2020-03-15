@@ -6,14 +6,14 @@ const TextAnalysis = (props) => {
         let barWidth = Math.floor(props.sentiment.confidence * 100).toString() + "%"
         if (props.sentiment.class == "positive") {
             sentimentSection = (
-                <div className="progress my-2">
-                    <div className="progress-bar bg-success" style={{width: barWidth}}>sentiment analysis</div>
+                <div className="progress">
+                    <div className="progress-bar progress-bar-striped bg-success" style={{width: barWidth}}>sentiment analysis</div>
                 </div>
             )
         } else {
             sentimentSection = (
-                <div className="progress my-2">
-                    <div className="progress-bar bg-danger" style={{width: barWidth}}>sentiment analysis</div>
+                <div className="progress">
+                    <div className="progress-bar progress-bar-striped bg-danger" style={{width: barWidth}}>sentiment analysis</div>
                 </div>
             )
         }

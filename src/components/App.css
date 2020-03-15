@@ -19,3 +19,7 @@
 .my-jumbo {
     background-color: white;
 }
+
+.table td, th {
+    text-align: center;   
+}

@@ -49,9 +49,30 @@ const ButtonBar = (props) => {
                     })}
                 </div>
                 <div className="btn-group">
-                    <button className="btn" onClick={props.handleDelete}><i className="fas fa-trash-alt"></i></button>
-                    <button className="btn" onClick={props.handleSave}><i className="fas fa-save"></i></button>
-                    <button className="btn" onClick={props.handleNew}><i className="fas fa-copy"></i></button>
+                    <button 
+                        className="btn" 
+                        onClick={props.handleDelete}
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="delete current version">
+                            <i className="fas fa-trash-alt"></i>
+                    </button>
+                    <button 
+                        className="btn" 
+                        onClick={props.handleSave}
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="save current version">
+                            <i className="fas fa-save"></i>
+                    </button>
+                    <button 
+                        className="btn" 
+                        onClick={props.handleNew}
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="create copy of current version">
+                            <i className="fas fa-copy"></i>
+                    </button>
                 </div>
             </div>
         )
@@ -103,8 +124,22 @@ const ButtonBar = (props) => {
                         })}
                     </div>
                     <div className="btn-group">
-                        <button className="btn" onClick={props.hideAnalysis}><i className="fas fa-pen"></i></button>
-                        <button className="btn" onClick={props.handleSave}><i className="fas fa-save"></i></button>
+                        <button 
+                            className="btn" 
+                            onClick={props.hideAnalysis}
+                            data-toggle="tooltip" 
+                            data-placement="top" 
+                            title="change to edit mode">
+                                <i className="fas fa-pen"></i>
+                        </button>
+                        <button 
+                            className="btn" 
+                            onClick={props.handleSave}
+                            data-toggle="tooltip" 
+                            data-placement="top" 
+                            title="save current versions">
+                                <i className="fas fa-save"></i>
+                        </button>
                     </div>
                 </div>
             )
@@ -155,8 +190,22 @@ const ButtonBar = (props) => {
                     })}
                 </div>
                 <div className="btn-group">
-                    <button className="btn" onClick={props.getAnalysis}><i className="fas fa-chart-bar"></i></button>
-                    <button className="btn" onClick={props.handleSave}><i className="fas fa-save"></i></button>
+                    <button 
+                        className="btn" 
+                        onClick={props.getAnalysis}
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="show comparison analysis">
+                            <i className="fas fa-chart-bar"></i>
+                    </button>
+                    <button 
+                        className="btn" 
+                        onClick={props.handleSave}
+                        data-toggle="tooltip" 
+                        data-placement="top" 
+                        title="save current versions">
+                            <i className="fas fa-save"></i>
+                    </button>
                 </div>
             </div>
         )

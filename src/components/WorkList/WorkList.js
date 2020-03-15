@@ -8,7 +8,13 @@ class WorkList extends React.Component {
     }
 
     handleClick = (e) => {
-        this.props.focusWork(e.target.getAttribute("value"))
+        if (e.target.getAttribute("value")) {
+            this.props.focusWork(e.target.getAttribute("value"))
+        }
+    }
+
+    handleDelete = (e) => {
+        this.props.deleteWork(e.target.getAttribute("data"))
     }
 
     render() {
@@ -25,6 +31,7 @@ class WorkList extends React.Component {
                             <th scope="col">Created</th>
                             <th scope="col">Last Updated</th>
                             <th scope="col"># Versions</th>
+                            <th scope="col">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,6 +43,7 @@ class WorkList extends React.Component {
                                 <td value={item.id}>{item.created}</td>
                                 <td value={item.id}>{item.last_updated}</td>
                                 <td value={item.id}>{item.newest_version}</td>
+                                <td value={item.id}><i className="fas fa-trash" data={item.id} onClick={this.handleDelete}></i></td>
                             </tr>
                         )
                     })}
